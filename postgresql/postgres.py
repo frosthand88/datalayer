@@ -52,13 +52,14 @@ def run_query(cursor, name, sql):
     print(f"\n⏳ {name}...")
     start = time.perf_counter()
     cursor.execute(f"EXPLAIN ANALYZE {sql}")
+    # cursor.execute(sql)
     results = cursor.fetchall()
     end = time.perf_counter()
     duration = end - start
 
     print(f"✅ {name} took {duration:.3f} sec")
     for row in results:
-        print(row[0])
+         print(row[0])
     return duration
 
 def main():

@@ -47,3 +47,16 @@ CREATE TABLE conference_org (
   org_id INT REFERENCES organization(id),
   PRIMARY KEY (conference_id, org_id)
 );
+
+-- Add some boolean, date, JSONB, and large text fields
+--ALTER TABLE researcher ADD COLUMN is_active BOOLEAN DEFAULT true;
+--ALTER TABLE researcher ADD COLUMN bio TEXT;  -- large text field
+--ALTER TABLE paper ADD COLUMN published_at DATE;
+--ALTER TABLE paper ADD COLUMN abstract TEXT;  -- large text field
+--ALTER TABLE topic ADD COLUMN metadata JSONB;  -- flexible data (JSON)
+--ALTER TABLE conference ADD COLUMN start_date DATE;
+--ALTER TABLE organization ADD COLUMN website_url TEXT;
+
+-- Simulate nullable relationships (some papers might not have a conference)
+--ALTER TABLE paper ADD COLUMN conference_id INT REFERENCES conference(id);
+

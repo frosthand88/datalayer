@@ -16,9 +16,11 @@ conn = psycopg2.connect(
     host=os.getenv("DB_HOST")
 )
 cur = conn.cursor()
+n = 1000000
+nj = 10000000
 
 print("Seeding base tables...")
-for _ in range(1000):
+for _ in range(n):
     cur.execute("INSERT INTO researcher (name) VALUES (%s)", (fake.name(),))
     cur.execute("INSERT INTO paper (title) VALUES (%s)", (fake.sentence(nb_words=4),))
     cur.execute("INSERT INTO topic (name) VALUES (%s)", (fake.word(),))
@@ -26,15 +28,15 @@ for _ in range(1000):
     cur.execute("INSERT INTO organization (name) VALUES (%s)", (fake.company(),))
 
 print("Seeding join tables...")
-for _ in range(10000):
+for _ in range(100000):
     cur.execute("INSERT INTO researcher_paper VALUES (%s, %s) ON CONFLICT DO NOTHING", (
-        random.randint(1, 1000), random.randint(1, 1000)))
+        random.randint(1, n), random.randint(1, n)))
     cur.execute("INSERT INTO paper_topic VALUES (%s, %s) ON CONFLICT DO NOTHING", (
-        random.randint(1, 1000), random.randint(1, 1000)))
+        random.randint(1, n), random.randint(1, n)))
     cur.execute("INSERT INTO topic_conference VALUES (%s, %s) ON CONFLICT DO NOTHING", (
-        random.randint(1, 1000), random.randint(1, 1000)))
+        random.randint(1, n), random.randint(1, n)))
     cur.execute("INSERT INTO conference_org VALUES (%s, %s) ON CONFLICT DO NOTHING", (
-        random.randint(1, 1000), random.randint(1, 1000)))
+        random.randint(1, n), random.randint(1, n)))
 
 conn.commit()
 cur.close()
