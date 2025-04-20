@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:14.17
+    environment:
+      POSTGRES_DB: frosthand_postgres_db
+      POSTGRES_USER: frosthand_postgres_username
+      POSTGRES_PASSWORD: frosthand_postgres_password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  seed:
+    build: ./init
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: frosthand_postgres_db
+      DB_USER: frosthand_postgres_username
+      DB_PASS: frosthand_postgres_password
+    entrypoint: [ "python", "populate.py" ]
+
+volumes:
+  db-data:
