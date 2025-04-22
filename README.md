@@ -6,26 +6,39 @@ Datalayer
 
 # Postgres
 1st run
-Researcher to Paper       0.027 sec
-Researcher to Topic       0.030 sec
-Researcher to Conference  0.033 sec
-Researcher to Organization 1.091 sec
+Researcher to Paper       0.162 sec
+Researcher to Topic       0.137 sec
+Researcher to Conference  0.149 sec
+Researcher to Organization 0.153 sec
 
 2nd run
 Researcher to Paper       0.005 sec
-Researcher to Topic       0.008 sec
-Researcher to Conference  0.011 sec
-Researcher to Organization 0.630 sec
+Researcher to Topic       0.005 sec
+Researcher to Conference  0.009 sec
+Researcher to Organization 0.020 sec
 
 # MS SQL 
 1st run
-Researcher to Paper       0.334 sec
-Researcher to Topic       0.293 sec
-Researcher to Conference  0.312 sec
-Researcher to Organization 0.274 sec
+Researcher to Paper       0.253 sec
+Researcher to Topic       0.213 sec
+Researcher to Conference  0.200 sec
+Researcher to Organization 0.206 sec
 
 2nd run
-Researcher to Paper       0.006 sec
+Researcher to Paper       0.004 sec
 Researcher to Topic       0.003 sec
 Researcher to Conference  0.003 sec
-Researcher to Organization 0.007 sec
+Researcher to Organization 0.004 sec
+
+# Oracle
+1st run
+Researcher to Paper       0.117 sec
+Researcher to Topic       0.088 sec
+Researcher to Conference  0.121 sec
+Researcher to Organization 0.122 sec
+
+2nd run
+Researcher to Paper       0.024 sec
+Researcher to Topic       0.017 sec
+Researcher to Conference  0.027 sec
+Researcher to Organization 0.018 sec

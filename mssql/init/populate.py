@@ -3,6 +3,7 @@ from faker import Faker
 import random
 import os
 import time
+from datetime import datetime, timedelta
 
 db_user = os.getenv("DB_USER")
 db_pass = os.getenv("DB_PASS")
@@ -54,24 +55,28 @@ def create_tables(conn):
         IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='researcher' AND xtype='U')
         CREATE TABLE researcher (
             id INT PRIMARY KEY IDENTITY,
+            created_at DATETIME NOT NULL DEFAULT GETDATE(),
             name NVARCHAR(255) NOT NULL
         );
 
         IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='paper' AND xtype='U')
         CREATE TABLE paper (
             id INT PRIMARY KEY IDENTITY,
+            created_at DATETIME NOT NULL DEFAULT GETDATE(),
             title NVARCHAR(255) NOT NULL
         );
 
         IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='topic' AND xtype='U')
         CREATE TABLE topic (
             id INT PRIMARY KEY IDENTITY,
+            created_at DATETIME NOT NULL DEFAULT GETDATE(),
             name NVARCHAR(255) NOT NULL
         );
 
         IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='conference' AND xtype='U')
         CREATE TABLE conference (
             id INT PRIMARY KEY IDENTITY,
+            created_at DATETIME NOT NULL DEFAULT GETDATE(),
             name NVARCHAR(255) NOT NULL,
             year INT NOT NULL
         );
@@ -79,6 +84,7 @@ def create_tables(conn):
         IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='organization' AND xtype='U')
         CREATE TABLE organization (
             id INT PRIMARY KEY IDENTITY,
+            created_at DATETIME NOT NULL DEFAULT GETDATE(),
             name NVARCHAR(255) NOT NULL
         );
         """)
@@ -130,19 +136,22 @@ def create_tables(conn):
 def seed_data(conn):
     # Seed the tables with fake data
     fake = Faker()
-    n = 1000000
-    nj = 10000000
+    n = 100000
+    nj = 1000000
+    start_date = datetime(2000, 1, 1)
 
     cur = conn.cursor()
 
     print("Seeding base tables...")
-    for _ in range(n):
-        cur.execute("INSERT INTO researcher (name) VALUES (%s)", (fake.name(),))
-        cur.execute("INSERT INTO paper (title) VALUES (%s)", (fake.sentence(nb_words=4),))
-        cur.execute("INSERT INTO topic (name) VALUES (%s)", (fake.word(),))
-        cur.execute("INSERT INTO conference (name, year) VALUES (%s, %s)", (fake.company(), random.randint(2000, 2025)))
-        cur.execute("INSERT INTO organization (name) VALUES (%s)", (fake.company(),))
-        if _ % 10000 == 0:
+    for i in range(n):
+        date = start_date + timedelta(days=i)
+        cur.execute("INSERT INTO researcher (name, created_at) VALUES (%s, %s)", (fake.name(), date))
+        cur.execute("INSERT INTO paper (title, created_at) VALUES (%s, %s)", (fake.sentence(nb_words=4), date))
+        cur.execute("INSERT INTO topic (name, created_at) VALUES (%s, %s)", (fake.word(), date))
+        cur.execute("INSERT INTO conference (name, year, created_at) VALUES (%s, %s, %s)",
+                    (fake.company(), random.randint(2000, 2025), date))
+        cur.execute("INSERT INTO organization (name, created_at) VALUES (%s, %s)", (fake.company(), date))
+        if i % 10000 == 0:
             conn.commit()
     conn.commit()
 

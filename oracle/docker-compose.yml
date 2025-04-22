@@ -1,0 +1,23 @@
+services:
+  db:
+    image: gvenzl/oracle-xe
+    container_name: oracle
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: frosthand_oracle_password
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+
+  seed:
+    build: ./init
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db:1521/XEPDB1
+      DB_USER: system
+      DB_PASS: frosthand_oracle_password
+    entrypoint: [ "python", "populate.py" ]
+
+volumes:
+  oracle-data:

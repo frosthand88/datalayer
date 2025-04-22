@@ -3,6 +3,7 @@ import random
 import time
 from faker import Faker
 import os
+from datetime import datetime, timedelta
 
 fake = Faker()
 
@@ -16,19 +17,21 @@ conn = psycopg2.connect(
     host=os.getenv("DB_HOST")
 )
 cur = conn.cursor()
-n = 1000000
-nj = 10000000
+n = 100000
+nj = 1000000
+start_date = datetime(2000, 1, 1)
 
 print("Seeding base tables...")
-for _ in range(n):
-    cur.execute("INSERT INTO researcher (name) VALUES (%s)", (fake.name(),))
-    cur.execute("INSERT INTO paper (title) VALUES (%s)", (fake.sentence(nb_words=4),))
-    cur.execute("INSERT INTO topic (name) VALUES (%s)", (fake.word(),))
-    cur.execute("INSERT INTO conference (name, year) VALUES (%s, %s)", (fake.company(), fake.year()))
-    cur.execute("INSERT INTO organization (name) VALUES (%s)", (fake.company(),))
+for i in range(n):
+    date = start_date + timedelta(days=i)
+    cur.execute("INSERT INTO researcher (name, created_at) VALUES (%s, %s)", (fake.name(), date))
+    cur.execute("INSERT INTO paper (title, created_at) VALUES (%s, %s)", (fake.sentence(nb_words=4), date))
+    cur.execute("INSERT INTO topic (name, created_at) VALUES (%s, %s)", (fake.word(), date))
+    cur.execute("INSERT INTO conference (name, year, created_at) VALUES (%s, %s, %s)", (fake.company(), fake.year(), date))
+    cur.execute("INSERT INTO organization (name, created_at) VALUES (%s, %s)", (fake.company(), date))
 
 print("Seeding join tables...")
-for _ in range(100000):
+for _ in range(nj):
     cur.execute("INSERT INTO researcher_paper VALUES (%s, %s) ON CONFLICT DO NOTHING", (
         random.randint(1, n), random.randint(1, n)))
     cur.execute("INSERT INTO paper_topic VALUES (%s, %s) ON CONFLICT DO NOTHING", (
