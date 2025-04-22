@@ -155,7 +155,7 @@ def seed_data(conn):
             conn.commit()
     conn.commit()
 
-    print("Seeding join tables...")
+    print("Seeding join tables...")0
     for _ in range(nj):
         r_id = random.randint(1, n)
         p_id = random.randint(1, n)
