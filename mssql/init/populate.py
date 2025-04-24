@@ -144,7 +144,7 @@ def seed_data(conn):
 
     print("Seeding base tables...")
     for i in range(n):
-        date = start_date + timedelta(days=i)
+        date = start_date + timedelta(hours=i)
         cur.execute("INSERT INTO researcher (name, created_at) VALUES (%s, %s)", (fake.name(), date))
         cur.execute("INSERT INTO paper (title, created_at) VALUES (%s, %s)", (fake.sentence(nb_words=4), date))
         cur.execute("INSERT INTO topic (name, created_at) VALUES (%s, %s)", (fake.word(), date))

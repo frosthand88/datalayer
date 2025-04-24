@@ -115,12 +115,15 @@ conn.commit()
 
 print("Seeding base tables...")
 for i in range(n):
-    date = start_date + timedelta(days=i)
+    date = start_date + timedelta(hours=i)
     cur.execute("INSERT INTO researcher (name, created_at) VALUES (:1, :2)", (fake.name(), date))
     cur.execute("INSERT INTO paper (title, created_at) VALUES (:1, :2)", (fake.sentence(nb_words=4), date))
     cur.execute("INSERT INTO topic (name, created_at) VALUES (:1, :2)", (fake.word(), date))
     cur.execute("INSERT INTO conference (name, year, created_at) VALUES (:1, :2, :3)", (fake.company(), fake.year(), date))
     cur.execute("INSERT INTO organization (name, created_at) VALUES (:1, :2)", (fake.company(), date))
+    if i % 10000 == 0:
+        conn.commit()
+conn.commit()
 
 print("Seeding join tables...")
 for _ in range(nj):
