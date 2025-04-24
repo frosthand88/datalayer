@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  db:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "47017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  seed:
+    build: ./init
+    depends_on:
+      - db
+
+volumes:
+  mongo-data:

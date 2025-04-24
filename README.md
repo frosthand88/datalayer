@@ -19,3 +19,11 @@ Datalayer
 | Researcher to Topic          | 0.005    | 0.003  | 0.017  | 0.003  |  0.003 | 0.043 |
 | Researcher to Conference     | 0.009    | 0.003  | 0.027  | 0.003  |  0.003 | 0.189 |
 | Researcher to Organization   | 0.020    | 0.004  | 0.018  | 0.004  |  0.004 | 0.203 |
+
+## NoSQL
+| Operation                    | MongoDB |  |  |   |  |  |
+| ---                    |---------| --- | --- | ---  | ---  | ---  |
+| Researcher to Paper          | 20.93   |   |   |   |   |  |
+| Researcher to Topic          | 30.63   |   |   |   |   |  |
+| Researcher to Conference     | 34.97   |   |   |   |   |  |
+| Researcher to Organization   | 38.30   |   |   |   |   |  |
