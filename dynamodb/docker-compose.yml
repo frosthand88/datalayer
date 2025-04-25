@@ -7,8 +7,3 @@ services:
     ports:
       - "38000:8000"
     command: "-jar DynamoDBLocal.jar -sharedDb"
-    networks:
-      - dynamo-net
-networks:
-  dynamo-net:
-    driver: bridge
