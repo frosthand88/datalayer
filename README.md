@@ -21,9 +21,9 @@ Datalayer
 | Researcher to Organization   | 0.020    | 0.004  | 0.018  | 0.004  |  0.004 | 0.203 |
 
 ## NoSQL
-| Operation                    | MongoDB |  |  |   |  |  |
-| ---                    |---------| --- | --- | ---  | ---  | ---  |
-| Researcher to Paper          | 20.93   |   |   |   |   |  |
-| Researcher to Topic          | 30.63   |   |   |   |   |  |
-| Researcher to Conference     | 34.97   |   |   |   |   |  |
-| Researcher to Organization   | 38.30   |   |   |   |   |  |
+| Operation                    | MongoDB | Redis |  |   |  |  |
+| ---                    |---------|-------| --- | ---  | ---  | ---  |
+| Researcher to Paper          | 20.93   | 1.13  |   |   |   |  |
+| Researcher to Topic          | 30.63   | 1.12  |   |   |   |  |
+| Researcher to Conference     | 34.97   | 1.11  |   |   |   |  |
+| Researcher to Organization   | 38.30   | 1.12  |   |   |   |  |
