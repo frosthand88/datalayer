@@ -4,6 +4,12 @@ Datalayer
 1. docker-compose up --build --no-cache
 2. docker-compose down
 
+## Operations Under Benchmark
+1. 2 stage 100k x 100k read joins with 1000 samples
+2. 3 stage 100k x 100k read joins with 1000 samples
+3. 4 stage 100k x 100k read joins with 1000 samples
+4. 5 stage 100k x 100k read joins with 1000 samples
+
 ## 1st run
 | Operation                    | Postgres | MS SQL | Oracle | MySQL  | MariaDB | Cockroach |
 | ---                    | --- | --- | --- | ---  | ---  | ---  |
