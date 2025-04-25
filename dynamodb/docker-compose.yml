@@ -1,0 +1,14 @@
+# docker-compose.yml
+version: '3'
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local
+    container_name: dynamodb
+    ports:
+      - "38000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb"
+    networks:
+      - dynamo-net
+networks:
+  dynamo-net:
+    driver: bridge
