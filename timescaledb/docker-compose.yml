@@ -1,0 +1,25 @@
+services:
+  db:
+    image: timescale/timescaledb:2.13.1-pg15
+    container_name: timescaledb
+    ports:
+      - "35432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminpass
+      - POSTGRES_DB=timescale_db
+    volumes:
+      - timescale_data:/var/lib/postgresql/data
+
+  timescaledb-seeder:
+    build:
+      context: ./init
+    depends_on:
+      - db
+
+volumes:
+  timescale_data:
+
+networks:
+  timescale_network:
+    driver: bridge
