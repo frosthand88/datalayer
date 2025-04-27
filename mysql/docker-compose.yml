@@ -2,7 +2,6 @@ services:
   db:
     image: mysql:8.0
     container_name: mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: frosthand_mysql_rootpass
       MYSQL_DATABASE: frosthand_mysql_db
