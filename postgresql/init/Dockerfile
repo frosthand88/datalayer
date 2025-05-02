@@ -3,6 +3,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY populate.py ./
+COPY AAPL.csv ./
 
 RUN pip install psycopg2-binary faker
 
