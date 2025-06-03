@@ -5,8 +5,8 @@ services:
     ports:
       - "35432:5432"
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=adminpass
+      - POSTGRES_USER=${TIMESCALE_USER}
+      - POSTGRES_PASSWORD=${TIMESCALE_PASSWORD}
       - POSTGRES_DB=timescale_db
     volumes:
       - timescale_data:/var/lib/postgresql/data
@@ -16,6 +16,9 @@ services:
       context: ./init
     depends_on:
       - db
+    environment:
+      TIMESCALE_USER: ${TIMESCALE_USER}
+      TIMESCALE_PASSWORD: ${TIMESCALE_PASSWORD}
 
 volumes:
   timescale_data:

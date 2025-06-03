@@ -2,9 +2,12 @@ from pymongo import MongoClient
 from faker import Faker
 import random
 from datetime import datetime, timedelta
+import os
 
 fake = Faker()
-client = MongoClient("mongodb://db:27017/")
+user = os.getenv("DB_USER")
+pasword = os.getenv("DB_PASSWORD")
+client = MongoClient(f"mongodb://{user}:{password}@db:27017/")
 db = client["bench"]
 
 n = 100_000

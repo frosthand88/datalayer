@@ -2,10 +2,14 @@ import psycopg2
 from datetime import datetime
 import random
 import time
+import os
 
 # Retry parameters
 max_retries = 5  # Number of retries
 retry_delay = 5  # Delay between retries (in seconds)
+
+user = os.environ['TIMESCALE_USER']
+password = os.environ['TIMESCALE_PASSWORD']
 
 # Function to establish the database connection with retries
 def connect_with_retry():
@@ -14,8 +18,8 @@ def connect_with_retry():
             # Try to connect to the database
             conn = psycopg2.connect(
                 host="db",  # Assuming your TimescaleDB service is named 'timescaledb' in Docker Compose
-                user="admin",
-                password="adminpass",
+                user=user,
+                password=password,
                 dbname="timescale_db",
                 port=5432
             )

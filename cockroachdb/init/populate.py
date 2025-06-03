@@ -12,19 +12,31 @@ time.sleep(5)
 
 conn = psycopg2.connect(
     dbname="defaultdb",
-    user="root",
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
     host=os.getenv("DB_HOST"),
-    port=26257,
-    sslmode="disable"
+    port=26257
 )
+
+# conn = psycopg2.connect(
+    # dbname="defaultdb",
+    # user=os.getenv("DB_USER"),
+    # password=os.getenv("DB_PASSWORD"),
+    # host=os.getenv("DB_HOST"),
+    # port=26257,
+    # sslmode="verify-full",
+    # sslrootcert="/app/certs/ca.crt",
+    # sslcert="/app/certs/client.root.crt",
+    # sslkey="/app/certs/client.root.key"
+# )
 cur = conn.cursor()
 n = 100000
 nj = 1000000
 start_date = datetime(2000, 1, 1)
 
-cur.execute("CREATE DATABASE IF NOT EXISTS bench;")
-conn.commit()
-cur.execute("SET DATABASE = bench;")
+#cur.execute("CREATE DATABASE IF NOT EXISTS bench;")
+#conn.commit()
+#cur.execute("SET DATABASE = bench;")
 cur.execute("SET search_path TO public;")
 
 schema_sql = """

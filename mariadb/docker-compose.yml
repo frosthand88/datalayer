@@ -5,10 +5,11 @@ services:
     image: mariadb:11.1
     environment:
       MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_DATABASE: frosthand_mariadb
     ports:
       - "33306:3306"
-    volumes:
-      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   seed:
     build: ./init
@@ -16,8 +17,8 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_USER: frosthand_mariadb_user
-      DB_PASS: frosthand_mariadb_password
+      DB_USER: ${MARIADB_USER}
+      DB_PASS: ${MARIADB_PASSWORD}
     entrypoint: [ "python", "populate.py" ]
 
 volumes:

@@ -5,6 +5,9 @@ services:
     container_name: mongodb
     ports:
       - "47017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASS}
     volumes:
       - mongo-data:/data/db
 
@@ -12,6 +15,9 @@ services:
     build: ./init
     depends_on:
       - db
+    environment:
+      - DB_USER=${MONGO_ROOT_USER}
+      - DB_PASSWORD=${MONGO_ROOT_PASS}
 
 volumes:
   mongo-data:

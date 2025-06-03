@@ -2,8 +2,11 @@ import redis
 from faker import Faker
 from datetime import datetime
 import random
+import os
 
-r = redis.Redis(host='redis', port=6379, decode_responses=True)
+password = os.environ['REDIS_PASSWORD']
+
+r = redis.Redis(host='redis', port=6379, password=password, decode_responses=True)
 fake = Faker()
 
 NUM_RECORDS = 200000

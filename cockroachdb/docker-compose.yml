@@ -1,22 +1,76 @@
 version: '3.9'
+
 services:
+  fixcerts:
+    image: alpine
+    volumes:
+      - certs:/fixed-certs
+      - ./certs:/input-certs:ro
+    entrypoint: |
+      sh -c "
+      mkdir -p /fixed-certs &&
+      cp /input-certs/* /fixed-certs/ &&
+      chmod 600 /fixed-certs/*.key &&
+      ls -l /fixed-certs &&
+      sleep 1
+      "
+      
   db:
     image: cockroachdb/cockroach:v23.1.11
     container_name: cockroach
-    command: start-single-node --insecure
+    depends_on:
+      - fixcerts
+    entrypoint: ["cockroach"]
+    command:
+      - start-single-node
+      - --certs-dir=/cockroach/certs
+      - --store=/cockroach/cockroach-data
+      - --listen-addr=0.0.0.0
+      - --http-addr=0.0.0.0
+      - --advertise-addr=db
     ports:
-      - "26257:26257"   # SQL port
-      - "8080:8080"     # Admin UI
+      - "26257:26257"
+      - "8080:8080"
+    environment:
+      - COCKROACH_USER=${COCKROACH_USER}
     volumes:
       - cockroach-data:/cockroach/cockroach-data
+      - certs:/cockroach/certs
+
+  init:
+    image: cockroachdb/cockroach:v23.1.11
+    depends_on:
+      - db
+    volumes:
+      - ./certs:/cockroach/certs:ro
+    entrypoint: >
+      bash -c "
+        until cockroach sql --certs-dir=/cockroach/certs --host=db -e 'SELECT 1'; do
+          echo 'Waiting for DB...'; sleep 2;
+        done &&
+        cockroach sql --certs-dir=/cockroach/certs --host=db -e \"
+          CREATE USER IF NOT EXISTS ${COCKROACH_USER} WITH PASSWORD '${COCKROACH_PASSWORD}';
+          GRANT ALL ON DATABASE defaultdb TO ${COCKROACH_USER};
+        \"
+      "
 
   seed:
     build: ./init
     depends_on:
-      - db
+      - init
     environment:
       DB_HOST: db
-    entrypoint: [ "python", "populate.py" ]
+      DB_USER: ${COCKROACH_USER}
+      DB_PASSWORD: ${COCKROACH_PASSWORD}
+    volumes:
+      - ./certs:/app/certs
+    entrypoint: |
+      bash -c "
+        chmod 600 /app/certs/client.root.key &&
+        python populate.py
+      "
 
 volumes:
   cockroach-data:
+  certs:
+  

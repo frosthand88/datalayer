@@ -7,6 +7,9 @@ services:
       - CASSANDRA_DC=DC1
       - CASSANDRA_RACK=RAC1
       - CASSANDRA_LISTEN_ADDRESS=cassandra
+      - CASSANDRA_PASSWORD_SEEDER=true
+      - CASSANDRA_USER=${CASSANDRA_USER}
+      - CASSANDRA_PASSWORD=${CASSANDRA_PASSWORD}
     ports:
       - "9042:9042"
     volumes:

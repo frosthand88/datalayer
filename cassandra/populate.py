@@ -1,4 +1,4 @@
-from cassandra.io.libevreactor import LibevConnection
+from cassandra.io.asyncorereactor import AsyncoreConnection
 from cassandra.cluster import Cluster
 import random
 import uuid
@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Connect to Cassandra
 cluster = Cluster(["localhost"])  # Assuming localhost is used
-cluster.connection_class = LibevConnection
+cluster.connection_class = AsyncoreConnection
 session = cluster.connect()
 
 # Create keyspace and tables if they don't exist

@@ -3,14 +3,22 @@ from faker import Faker
 from datetime import datetime
 import logging
 import random
+from dotenv import load_dotenv
+import os
+
+# Load variables from .env file into environment
+load_dotenv(dotenv_path=".env")  # defaults to .env in current dir
 
 logging.basicConfig(level=logging.DEBUG)
 
 fake = Faker()
+username = os.getenv("ELASTIC_USER")
+password = os.getenv("ELASTIC_PASSWORD")
 
 # Connect to Elasticsearch
 es = Elasticsearch(
     "http://localhost:9200",
+    http_auth=(username, password),
     headers={
         "Content-Type": "application/json",
         "Accept": "application/json"

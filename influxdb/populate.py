@@ -2,9 +2,14 @@ from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 from datetime import datetime, timezone
 import random
+from dotenv import load_dotenv
+import os
+
+# Load variables from .env file into environment
+load_dotenv(dotenv_path=".env")  # defaults to .env in current dir
 
 url = "http://localhost:38086"
-token = "mytoken"
+token = os.getenv("INFLUX_PASSWORD")
 org = "myorg"
 bucket = "mybucket"
 

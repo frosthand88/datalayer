@@ -1,11 +1,16 @@
 from neo4j import GraphDatabase
 import random
+from dotenv import load_dotenv
+import os
 from datetime import datetime
+
+# Load variables from .env file into environment
+load_dotenv(dotenv_path=".env")  # defaults to .env in current dir
 
 # Connect to Neo4j (bolt://localhost:7687)
 uri = "bolt://localhost:7687"
-username = "neo4j"
-password = "strongpassword123"
+username = os.getenv("NEO4J_USER")
+password = os.getenv("NEO4J_PASSWORD")
 
 driver = GraphDatabase.driver(uri, auth=(username, password))
 
